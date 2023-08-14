@@ -1,0 +1,4 @@
+.vscode
+volumes/
+storage/
+__pycache__/

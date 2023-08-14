@@ -1,7 +1,7 @@
-from webpage import *
-from util import *
+from crawler.webpage import *
+from misc.util import *
 from bs4 import BeautifulSoup
-from util import *
+from misc.util import *
 from util_text import *
 import re
 

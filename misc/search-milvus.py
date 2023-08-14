@@ -20,7 +20,7 @@ def get_embedding(text, model="text-embedding-ada-002"):
    embeddings = openai.Embedding.create(input = [text], model=model)
    return [x['embedding'] for x in embeddings['data']]
 
-x= get_embedding("Qual a medida das rodas do puma ano 1976")
+x= get_embedding("Qual a sequencia de lixas para fazer o polimento do carro durante uma restauração")
 
 connections.connect(alias="default", host='localhost', port='19530')
 collection = Collection("LangChainCollection")

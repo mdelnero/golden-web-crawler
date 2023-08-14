@@ -2,8 +2,8 @@ from langchain.docstore.document import Document
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import Milvus
-from util import *
-from webpage import *
+from misc.util import *
+from crawler.webpage import *
 import os
 
 os.environ["OPENAI_API_KEY"] = ''
@@ -14,6 +14,7 @@ embeddings = OpenAIEmbeddings()
 def read_all_documents():
     try:        
 
+        embeddings.aembed_documents
         # all_documents = db.read_all()
         all_documents = db.read_query({"title": "Puma Classic: Puma GTE 1975 (2) - A restauração"})
 
@@ -32,7 +33,7 @@ def read_all_documents():
                 doc.page_content = title + ' - ' + doc.page_content
 
             #print(len(text), len(docs))
-            vector_db = Milvus.from_documents(docs, embeddings)
+            #vector_db = Milvus.from_documents(docs, embeddings)
 
     except pymongo.errors.ConnectionFailure:
         print("Failed to connect to MongoDB. Make sure MongoDB is running.")
