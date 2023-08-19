@@ -15,11 +15,18 @@ def is_same_domain(link1, link2):
     domain2 = urlparse(link2).netloc
     return domain1.replace('www.', '') == domain2.replace('www.', '')
 
+def is_image_url(url):
+    image_extensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp']
+    return any(url.lower().endswith(ext) for ext in image_extensions)
+
 def transform_https_to_http(url):
     if url.startswith("https://"):
         return url.replace("https://", "http://", 1)
     else:
-        return url
+        if url.startswith("//"):
+            return "http" + url
+        else:
+            return url
 
 def remove_items_containing_text(lst, texts_to_remove):
     return [item for item in lst if not any(text in item for text in texts_to_remove)]

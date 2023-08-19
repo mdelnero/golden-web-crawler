@@ -9,7 +9,8 @@ class MongoPageAdapter(PageAdapter):
         self.name = 'mongo'
         self.client = pymongo.MongoClient(conn_string)
         self.db = self.client[db]
-        self.collection = self.db[collection]
+        self.page_collection = self.db[collection]
+        self.img_collection = self.db[collection + '_img']
 
     def insert_page(self, page: WebPage):
         data = {
@@ -22,10 +23,13 @@ class MongoPageAdapter(PageAdapter):
             "img_links": page.img_links,
             "elected": page.elected}
         
-        result = self.collection.insert_one(data)
-        print("Inserted ID:", result.inserted_id)
+        result = self.page_collection.insert_one(data)
+        print("- PAGE ID:", result.inserted_id)
 
     def insert_image(self, img: WebImage):
         data = {
             "url": img.url,
+            "short_url": None,
             "content": None}
+        result = self.img_collection.insert_one(data)
+        print("- IMG ID:", result.inserted_id)

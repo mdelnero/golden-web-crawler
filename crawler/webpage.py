@@ -36,6 +36,8 @@ class WebPage:
                     new_link = transform_https_to_http(link["href"])
                     if is_same_domain(new_link, self.url):
                         self.links.add(new_link)
+                    if is_image_url(new_link):
+                        self.img_links.add(new_link)
                 for link in soup.find_all('img'):
                     new_link = transform_https_to_http(link["src"])
                     if new_link:
@@ -60,10 +62,3 @@ class WebPage:
             with open(f"{folder}{sanitize_filename(self.url)}.html", 'w', encoding='utf-8') as f:
                 f.write(f"{self.url}\n{self.title}\n\n{self.content}")
     '''
-        
-class WebPageTransformer:
-    def __init__(self):
-        None
-
-    def transform(self, page: WebPage, dom: BeautifulSoup):
-        None
