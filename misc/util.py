@@ -23,8 +23,9 @@ def get_string_hash(input_string):
 class MongoAdapter:
     def __init__(self):
         self.client = pymongo.MongoClient("mongodb://root:123@localhost:27017/")
-        self.db = self.client["scraper"]
-        self.collection = self.db["pages"]
+        self.db = self.client["scraperPumaV3"]
+        self.collection = self.db["page"]
+        self.img_collection = self.db["page_img"]
 
     def update(self, doc):
         self.collection.update_one(
@@ -39,4 +40,25 @@ class MongoAdapter:
         query = {"leaf": True}
         result = self.collection.find(query)
         return result
-
+    
+    def read_all_img(self):
+        query = {"content": None}
+        result = self.img_collection.find(query)
+        return result
+    
+    def read_all_failed_img(self):
+        query = {"file_size": None}
+        result = self.img_collection.find(query)
+        return result
+    
+    def update_img(self, doc):
+        self.img_collection.update_one(
+            {'_id': doc["_id"]}, 
+            {'$set': {
+                'url': doc["url"],
+                'short_url': doc["short_url"],
+                'width': doc["width"],
+                'height': doc["height"],
+                'file_size': doc["file_size"],
+                'content': doc["content"]
+                }})

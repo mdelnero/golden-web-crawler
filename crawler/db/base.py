@@ -15,3 +15,9 @@ class PageAdapter:
 
     def insert_image(self, img: WebImage):
         print("img none")
+
+    def update_img(self, doc):
+        print("img none")
+
+    def read_img_to_download(self):
+        print("img none")

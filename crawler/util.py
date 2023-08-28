@@ -1,5 +1,8 @@
 from urllib.parse import urlparse
 import requests
+import hashlib
+import base64
+import os
 
 def get_http_request(url):
     headers = {
@@ -24,9 +27,17 @@ def transform_https_to_http(url):
         return url.replace("https://", "http://", 1)
     else:
         if url.startswith("//"):
-            return "http" + url
+            return "http:" + url
         else:
             return url
 
 def remove_items_containing_text(lst, texts_to_remove):
     return [item for item in lst if not any(text in item for text in texts_to_remove)]
+
+def generate_short_name(url, extension=True):    
+    sha256_hash = hashlib.sha256(url.encode()).digest()    
+    short_name = base64.urlsafe_b64encode(sha256_hash).decode().rstrip("=")
+    if extension:
+        file_extension = os.path.splitext(url)[1]
+        short_name += file_extension
+    return short_name

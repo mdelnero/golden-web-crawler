@@ -22,7 +22,7 @@ class WebCrawler:
 
     def run(self):
         root_page = WebPage(self.url)
-        set_images = set()
+        dic_images = dict()
         dic_pages = dict()    
         dic_pages[root_page.url] = root_page
 
@@ -40,7 +40,8 @@ class WebCrawler:
                             if not item in dic_pages:
                                 dic_pages[item] = WebPage(item)
                         for item in page.img_links:
-                            set_images.add(WebImage(item))  
+                            if not item in dic_images:
+                                dic_images[item] = WebImage(item)
                         if self.transformer != None:
                             self.transformer.transform(page)
 
@@ -51,7 +52,7 @@ class WebCrawler:
                     page.saved = True
                     page.dispose()
 
-            for image in set_images:
+            for image in dic_images.values():
                 if not image.saved:
                     if self.adapter != None:
                        self.adapter.insert_image(image)

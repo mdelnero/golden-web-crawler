@@ -29,7 +29,24 @@ class MongoPageAdapter(PageAdapter):
     def insert_image(self, img: WebImage):
         data = {
             "url": img.url,
-            "short_url": None,
+            "short_url": img.short_url,
             "content": None}
         result = self.img_collection.insert_one(data)
         print("- IMG ID:", result.inserted_id)
+
+    def update_img(self, doc):
+        self.img_collection.update_one(
+            {'_id': doc["_id"]}, 
+            {'$set': {
+                'url': doc["url"],
+                'short_url': doc["short_url"],
+                'width': doc["width"],
+                'height': doc["height"],
+                'file_size': doc["file_size"],
+                'content': doc["content"]
+                }})
+
+    def read_img_to_download(self):
+        query = {"content": None}
+        result = self.img_collection.find(query)
+        return result
